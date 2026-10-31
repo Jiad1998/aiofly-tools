@@ -1,0 +1,12 @@
+(function(A){var $=A.$,copyText=A.copy,rnd=A.rnd,lib=A.lib,add=A.add,esc=A.esc,num=A.num,kb=A.kb,loadImg=A.loadImg,showImg=A.showImg;
+add("morse-code-translator",{cat:"convert",ic:"📡",t:"Morse Code Translator",d:"Translate text to Morse code and Morse back to text, with sound.",
+h:`<div class="row"><label>Mode <select id="m"><option value="e">Text to Morse</option><option value="d">Morse to text</option></select></label></div><textarea id="i" placeholder="Type text, or Morse using dots and dashes. Separate letters with a space and words with /"></textarea><textarea id="o" readonly></textarea><div class="row"><button id="cp" type="button">Copy</button><button id="pl" type="button">🔊 Play</button></div>`,
+f:function(){
+var M={"A": ".-", "B": "-...", "C": "-.-.", "D": "-..", "E": ".", "F": "..-.", "G": "--.", "H": "....", "I": "..", "J": ".---", "K": "-.-", "L": ".-..", "M": "--", "N": "-.", "O": "---", "P": ".--.", "Q": "--.-", "R": ".-.", "S": "...", "T": "-", "U": "..-", "V": "...-", "W": ".--", "X": "-..-", "Y": "-.--", "Z": "--..", "0": "-----", "1": ".----", "2": "..---", "3": "...--", "4": "....-", "5": ".....", "6": "-....", "7": "--...", "8": "---..", "9": "----.", ".": ".-.-.-", ",": "--..--", "?": "..--..", "!": "-.-.--", "/": "-..-."},R={};Object.keys(M).forEach(function(k){R[M[k]]=k});
+function run(){var s=$('i').value.trim();if($('m').value==='e'){$('o').value=s.toUpperCase().split(/\s+/).map(function(w){return Array.from(w).map(function(c){return M[c]||''}).filter(Boolean).join(' ')}).join(' / ')}else{$('o').value=s.split(/\s*\/\s*|\s{3,}/).map(function(w){return w.trim().split(/\s+/).map(function(c){return R[c]||''}).join('')}).join(' ')}}
+$('i').oninput=run;$('m').onchange=run;$('cp').onclick=function(){copyText($('o').value,$('cp'))};
+$('pl').onclick=function(){var code=$('m').value==='e'?$('o').value:$('i').value;try{var a=new (window.AudioContext||window.webkitAudioContext)(),t=a.currentTime;code.split('').forEach(function(ch){var d=ch==='.'?.08:ch==='-'?.24:0;if(d){var o=a.createOscillator(),g=a.createGain();o.frequency.value=650;o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+d);t+=d+.08}else if(ch===' '){t+=.16}else if(ch==='/'){t+=.3}})}catch(e){}};run();
+},
+how:["Choose text to Morse or Morse to text.","Type your message.","Copy it or press Play to hear it."],
+faq:[["How do I write Morse?","Use dots and dashes. Leave a space between letters and a slash between words."],["Does it support Bangla?","No. Morse code here supports English letters, numbers and common symbols."]]});
+})(AIO);
