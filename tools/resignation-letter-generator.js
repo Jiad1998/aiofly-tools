@@ -1,0 +1,11 @@
+(function(A){var $=A.$,copyText=A.copy,rnd=A.rnd,lib=A.lib,add=A.add,esc=A.esc,num=A.num,kb=A.kb,loadImg=A.loadImg,showImg=A.showImg;
+add("resignation-letter-generator",{cat:"writing",ic:"📝",t:"Resignation Letter Generator",d:"Write a polite resignation letter with your last working day.",
+h:`<label>Your name</label><input type="text" id="n" value="John Smith"><label>Manager name</label><input type="text" id="m" value="Mr. Khan"><label>Company</label><input type="text" id="c" value="ABC Company"><label>Your position</label><input type="text" id="p" value="Sales Executive"><label>Last working day</label><input type="date" id="d" value=""><label>Reason (optional)</label><input type="text" id="r" value="to pursue a new opportunity"><div class="row"><button id="cp" type="button">Copy result</button></div><textarea id="o" readonly style="min-height:162px"></textarea>`,
+f:function(){
+var ids=["n", "m", "c", "p", "d", "r"];
+function run(){var v={};ids.forEach(function(i){v[i]=$(i).value;var s=$(i+'_v');if(s)s.textContent=v[i]});var out;try{out=(function(v){var dt=v.d?new Date(v.d+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}):'[last working day]';return 'Dear '+v.m+',\n\nPlease accept this letter as formal notice of my resignation from my position as '+v.p+' at '+v.c+'. My last working day will be '+dt+'.'+(v.r.trim()?' I have decided to leave '+v.r.trim()+'.':'')+'\n\nI am grateful for the opportunities and support I have received during my time here. I will do my best to complete my pending work and help make the handover smooth.\n\nThank you for everything. I wish the company continued success.\n\nSincerely,\n'+v.n+'\n'+new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})})(v)}catch(e){out='Error: '+e.message}$('o').value=out;}
+ids.forEach(function(i){$(i).oninput=run;$(i).onchange=run});$('cp').onclick=function(){copyText($('o').value,$('cp'))};run();
+},
+how:["Fill in the details and pick your last working day.","Add a reason if you wish, or leave it blank.","Copy the letter."],
+faq:[["Do I need to give a reason?","No. A reason is optional. You can simply thank your employer and give notice."],["How much notice should I give?","Check your contract. Two to four weeks is common."]]});
+})(AIO);

@@ -1,0 +1,11 @@
+(function(A){var $=A.$,copyText=A.copy,rnd=A.rnd,lib=A.lib,add=A.add,esc=A.esc,num=A.num,kb=A.kb,loadImg=A.loadImg,showImg=A.showImg;
+add("leave-application-generator",{cat:"writing",ic:"🗓️",t:"Leave Application Generator",d:"Create a leave application for school or office. Copy and send.",
+h:`<label>Your name</label><input type="text" id="n" value="Rahul Sharma"><label>Write to</label><input type="text" id="t" value="The Manager"><label>Leave type</label><select id="k"><option selected>sick leave</option><option>casual leave</option><option>annual leave</option><option>emergency leave</option><option>maternity leave</option><option>half day leave</option></select><label>From date</label><input type="date" id="f" value=""><label>To date</label><input type="date" id="e" value=""><label>Reason</label><textarea id="r" style="min-height:70px">I am not feeling well and the doctor has advised rest.</textarea><div class="row"><button id="cp" type="button">Copy result</button></div><textarea id="o" readonly style="min-height:162px"></textarea>`,
+f:function(){
+var ids=["n", "t", "k", "f", "e", "r"];
+function run(){var v={};ids.forEach(function(i){v[i]=$(i).value;var s=$(i+'_v');if(s)s.textContent=v[i]});var out;try{out=(function(v){function f(x){return x?new Date(x+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}):'[date]'}var days='';if(v.f&&v.e){var n=Math.round((new Date(v.e)-new Date(v.f))/864e5)+1;if(n>0)days=' ('+n+' day'+(n>1?'s':'')+')'}return 'To,\n'+v.t+'\n\nSubject: Application for '+v.k+'\n\nRespectfully,\n\nI, '+v.n+', would like to request '+v.k+' from '+f(v.f)+' to '+f(v.e)+days+'. '+v.r+'\n\nI kindly request you to grant me leave for this period. I will complete any pending work after I return.\n\nThank you.\n\nYours sincerely,\n'+v.n})(v)}catch(e){out='Error: '+e.message}$('o').value=out;}
+ids.forEach(function(i){$(i).oninput=run;$(i).onchange=run});$('cp').onclick=function(){copyText($('o').value,$('cp'))};run();
+},
+how:["Enter your name, who you are writing to and the leave type.","Pick the dates and write the reason.","Copy the application."],
+faq:[["Can students use it?","Yes. Change \"The Manager\" to \"The Principal\" and write your class in the reason."]]});
+})(AIO);

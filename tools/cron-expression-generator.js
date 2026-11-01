@@ -1,0 +1,12 @@
+(function(A){var $=A.$,copyText=A.copy,rnd=A.rnd,lib=A.lib,add=A.add,esc=A.esc,num=A.num,kb=A.kb,loadImg=A.loadImg,showImg=A.showImg;
+add("cron-expression-generator",{cat:"dev",ic:"⏰",t:"Cron Expression Generator",d:"Build a cron schedule with simple choices and get the cron expression.",
+h:`<label>Run</label><select id="p"><option value="m">Every minute</option><option value="5">Every 5 minutes</option><option value="15">Every 15 minutes</option><option value="h">Every hour</option><option value="d" selected>Every day</option><option value="w">Every week</option><option value="mo">Every month</option></select><div class="row"><label style="flex:1 1 100px">Hour (0-23)<input type="number" id="h" value="9" min="0" max="23"></label><label style="flex:1 1 100px">Minute (0-59)<input type="number" id="mi" value="0" min="0" max="59"></label></div><label>Weekday (for weekly)</label><select id="w"><option value="0">Sunday</option><option value="1" selected>Monday</option><option value="2">Tuesday</option><option value="3">Wednesday</option><option value="4">Thursday</option><option value="5">Friday</option><option value="6">Saturday</option></select><label>Day of month (for monthly)</label><input type="number" id="dm" value="1" min="1" max="31"><div class="res big" id="o"></div><button id="cp" type="button">Copy</button><div class="res" id="e"></div>`,
+f:function(){
+function run(){var p=$('p').value,h=+$('h').value||0,m=+$('mi').value||0,w=$('w').value,dm=+$('dm').value||1,x,e,t=('0'+h).slice(-2)+':'+('0'+m).slice(-2);
+if(p==='m'){x='* * * * *';e='Every minute'}else if(p==='5'){x='*/5 * * * *';e='Every 5 minutes'}else if(p==='15'){x='*/15 * * * *';e='Every 15 minutes'}else if(p==='h'){x=m+' * * * *';e='Every hour at minute '+m}else if(p==='d'){x=m+' '+h+' * * *';e='Every day at '+t}else if(p==='w'){x=m+' '+h+' * * '+w;e='Every '+$('w').options[$('w').selectedIndex].text+' at '+t}else{x=m+' '+h+' '+dm+' * *';e='On day '+dm+' of every month at '+t}
+$('o').textContent=x;$('e').textContent=e}
+['p','h','mi','w','dm'].forEach(function(i){$(i).oninput=run;$(i).onchange=run});$('cp').onclick=function(){copyText($('o').textContent,$('cp'))};run();
+},
+how:["Choose how often the job should run.","Set the hour, minute, weekday or day if needed.","Copy the cron expression."],
+faq:[["What are the 5 parts of cron?","Minute, hour, day of month, month and day of week, in that order."],["Which time zone is used?","The time zone of the server that runs the job."]]});
+})(AIO);

@@ -1,0 +1,11 @@
+(function(A){var $=A.$,copyText=A.copy,rnd=A.rnd,lib=A.lib,add=A.add,esc=A.esc,num=A.num,kb=A.kb,loadImg=A.loadImg,showImg=A.showImg;
+add("css-button-generator",{cat:"web",ic:"🔘",t:"CSS Button Generator",d:"Design a button with your colors and corners, and copy the HTML and CSS.",
+h:`<label>Button text</label><input type="text" id="t" value="Click me"><label>Background</label><input type="color" id="bg" value="#7c3aed"><label>Text color</label><input type="color" id="fg" value="#ffffff"><label>Corner radius: <b id="r_v">10</b></label><input type="range" id="r" min="0" max="40" value="10"><label>Padding (px): <b id="p_v">14</b></label><input type="range" id="p" min="6" max="30" value="14"><label>Shadow</label><select id="s"><option selected>yes</option><option>no</option></select><div id="pv" style="margin:12px 0"></div><div class="row"><button id="cp" type="button">Copy result</button></div><textarea id="o" readonly style="min-height:162px"></textarea>`,
+f:function(){
+var ids=["t", "bg", "fg", "r", "p", "s"];
+function run(){var v={};ids.forEach(function(i){v[i]=$(i).value;var s=$(i+'_v');if(s)s.textContent=v[i]});var out;try{out=(function(v){return '<button class="btn">'+esc(v.t)+'</button>\n\n.btn{\n  background:'+v.bg+';\n  color:'+v.fg+';\n  border:none;\n  border-radius:'+v.r+'px;\n  padding:'+v.p+'px '+(v.p*2)+'px;\n  font-size:16px;\n  font-weight:600;\n  cursor:pointer;'+(v.s==='yes'?'\n  box-shadow:0 6px 16px rgba(0,0,0,.25);':'')+'\n}\n.btn:hover{opacity:.9}'})(v)}catch(e){out='Error: '+e.message}$('o').value=out;try{$('pv').innerHTML=(function(v){return '<button style="background:'+v.bg+';color:'+v.fg+';border:none;border-radius:'+v.r+'px;padding:'+v.p+'px '+(v.p*2)+'px;font-size:16px;font-weight:600;cursor:pointer;'+(v.s==='yes'?'box-shadow:0 6px 16px rgba(0,0,0,.25)':'')+'">'+esc(v.t)+'</button>'})(v)}catch(e){}}
+ids.forEach(function(i){$(i).oninput=run;$(i).onchange=run});$('cp').onclick=function(){copyText($('o').value,$('cp'))};run();
+},
+how:["Type the text and pick colors.","Adjust corners and padding.","Copy the HTML and CSS."],
+faq:[["Can I use it on Blogger?","Yes. Paste the HTML in your post (HTML view) and the CSS in your theme."]]});
+})(AIO);
